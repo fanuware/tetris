@@ -1,0 +1,7 @@
+#include "applicationdefs.h"
+
+const QString ApplicationDefs::kVersion(
+    "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}");
+
+const QString ApplicationDefs::kLegalCopyright(
+    "${PROJECT_LEGAL_COPYRIGHT}");

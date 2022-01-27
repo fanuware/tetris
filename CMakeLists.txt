@@ -1,51 +1,92 @@
-cmake_minimum_required(VERSION 3.1.0)
+cmake_minimum_required(VERSION 3.5.0)
 
-project(tetris)
+if(WIN32)
+    project(Tetris CXX)
+else()
+    project(tetris CXX)
+endif()
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-# qt5 library
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build-Type: Debug/Release" FORCE)
+endif()
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(PROJECT_VERSION_MAJOR "1")
+set(PROJECT_VERSION_MINOR "0")
+set(PROJECT_VERSION_PATCH "1")
+set(PROJECT_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
+set(PROJECT_LEGAL_COPYRIGHT "Copyright Fanuware (c) 2022")
+
 find_package(Qt5 COMPONENTS REQUIRED Core Gui Widgets)
 
-set(SOURCES
-    src/main.cpp
-    src/mainwindow.cpp
-    src/tetrisshape.cpp
-    src/playfield.cpp
-    src/about.cpp
-    src/options.cpp
+include(ui/CMakeLists.txt)
+
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
+
+add_executable(${PROJECT_NAME} res/application.qrc
+    $<$<CXX_COMPILER_ID:MSVC>:
+        res/application.rc
+    >
 )
 
-set(HEADERS
-    include/tetrisshape.h
+add_subdirectory(include)
+add_subdirectory(src)
+
+target_compile_definitions(${PROJECT_NAME}
+  PRIVATE
+    $<$<CONFIG:Debug>:
+        DEBUG
+    >
+    $<$<CONFIG:Release>:
+        NDEBUG;
+        QT_NO_DEBUG;
+        QT_NO_DEBUG_OUTPUT
+    >
+    $<$<CXX_COMPILER_ID:MSVC>:
+        $<$<CONFIG:DEBUG>:
+            _DEBUG
+        >
+        _WINDOWS;
+        _UNICODE
+    >
+    UNICODE;
+    QT_DLL;
+    QT_NO_PRINTER
 )
 
-set(UI
-    ui/mainwindow.ui
-    ui/options.ui
-    ui/about.ui
+target_compile_options(${PROJECT_NAME}
+  PRIVATE
+    $<$<CONFIG:Debug>:
+        $<$<CXX_COMPILER_ID:GNU>:
+            -O0;
+            -g;
+            -feliminate-unused-debug-types
+        >
+        $<$<CXX_COMPILER_ID:MSVC>:
+            /MDd;
+            /Od;
+            /Zi;
+            /W3
+        >
+    >
+    $<$<CONFIG:Release>:
+        $<$<CXX_COMPILER_ID:GNU>:
+            -O2
+        >
+        $<$<CXX_COMPILER_ID:MSVC>:
+            /MD;
+            /O2
+        >
+    >
 )
 
-set(QOBJECTS
-    include/mainwindow.h
-    include/playfield.h
-    include/options.h
-    include/about.h
-)
-
-qt5_wrap_cpp(MOC ${QOBJECTS})
-qt5_wrap_ui(UI_HEADER ${UI})
-qt5_add_resources(QRC_CPP res/resource.qrc)
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
-add_executable(tetris ${SOURCES} ${HEADERS} ${QOBJECTS} ${MOC} ${UI_HEADER} ${QRC_CPP})
-
-target_compile_definitions(tetris PRIVATE QT)
-target_link_libraries(tetris Qt5::Core Qt5::Gui Qt5::Widgets)
-
-target_include_directories(tetris PRIVATE
-    include
-)
+target_link_libraries(${PROJECT_NAME} PUBLIC Qt5::Core Qt5::Gui Qt5::Widgets)
 
 if(MSVC)
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
