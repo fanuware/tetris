@@ -119,14 +119,14 @@
         <item>
          <widget class="QPushButton" name="btnStopGame">
           <property name="text">
-           <string>StopGame</string>
+           <string>Stop</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QPushButton" name="btnStartGame">
           <property name="text">
-           <string>StartGame</string>
+           <string>Start</string>
           </property>
          </widget>
         </item>
