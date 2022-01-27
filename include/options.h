@@ -8,8 +8,7 @@ namespace Ui {
 class Options;
 }
 
-class Options : public QDialog
-{
+class Options : public QDialog {
     Q_OBJECT
 
 public:
@@ -29,10 +28,10 @@ public slots:
 private:
     Ui::Options *ui;
     PlayField::Settings m_settings;
-    void paintSquare( QPainter *painter, const TetrisShape &shape,
-                      int posX, int posY,
-                      int squareWidth, int squareHeight );
-    void showPreview(QWidget *widget, TetrisShape shape, int width, int height, bool transparent=false );
+    void paintSquare(QPainter *painter, const TetrisShape &shape,
+                     int posX, int posY,
+                     int squareWidth, int squareHeight);
+    void showPreview(QWidget *widget, TetrisShape shape, int width, int height, bool transparent=false);
     void paintColorButtons();
     void paintPreview();
 
@@ -45,4 +44,4 @@ private:
     QPushButton *m_btnShapes[7];
 };
 
-#endif // OPTIONS_H
+#endif

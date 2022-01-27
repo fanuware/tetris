@@ -4,19 +4,18 @@
 #include <QDialog>
 
 namespace Ui {
-	class About;
+    class About;
 }
 
-class About : public QDialog
-{
-	Q_OBJECT
+class About : public QDialog {
+    Q_OBJECT
 
 public:
-	explicit About(QWidget *parent = 0);
-	~About();
+    explicit About(QWidget *parent = 0);
+    ~About();
 
 private:
-	Ui::About *ui;
+    Ui::About *ui;
 };
 
-#endif // OPTIONS_H
+#endif

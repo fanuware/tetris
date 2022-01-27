@@ -8,8 +8,7 @@ namespace Ui {
 class MainWindow;
 }
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
@@ -18,11 +17,11 @@ public:
 
 public slots:
     void openDialogOptions();
-	void openDialogAbout();
+    void openDialogAbout();
 
 private:
     Ui::MainWindow *ui;
-	void resizeEvent(QResizeEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override;
 };
 
-#endif // MAINWINDOW_H
+#endif
