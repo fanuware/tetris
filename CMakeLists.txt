@@ -21,7 +21,9 @@ set(PROJECT_VERSION_PATCH "1")
 set(PROJECT_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
 set(PROJECT_LEGAL_COPYRIGHT "Copyright Fanuware (c) 2022")
 
-find_package(Qt5 COMPONENTS REQUIRED Core Gui Widgets)
+#find_package(Qt5 COMPONENTS REQUIRED Core Gui Widgets)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Gui Widgets)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Widgets)
 
 include(ui/CMakeLists.txt)
 
@@ -86,7 +88,7 @@ target_compile_options(${PROJECT_NAME}
     >
 )
 
-target_link_libraries(${PROJECT_NAME} PUBLIC Qt5::Core Qt5::Gui Qt5::Widgets)
+target_link_libraries(${PROJECT_NAME} PUBLIC Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Gui Qt${QT_VERSION_MAJOR}::Widgets)
 
 if(MSVC)
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
