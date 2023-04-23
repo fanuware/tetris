@@ -8,7 +8,7 @@ The game is implemented in C++ and uses the Qt5 framework to access the graphica
 
 ## Dependencies
 
-- Qt5
+- Qt5 or Qt6
 
 ## Installation
 
