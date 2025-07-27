@@ -49,11 +49,14 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
+
 add_executable(${PROJECT_NAME} res/application.qrc
     $<$<CXX_COMPILER_ID:MSVC>:
         res/application.rc
     >
 )
+
+install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
 
 add_subdirectory(include)
 add_subdirectory(src)
@@ -116,4 +119,23 @@ if(MSVC)
         COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:Qt${QT_VERSION_MAJOR}::Gui> $<TARGET_FILE_DIR:${PROJECT_NAME}>
         COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:Qt${QT_VERSION_MAJOR}::Widgets> $<TARGET_FILE_DIR:${PROJECT_NAME}>
     )
+endif()
+
+if (UNIX)
+    set(CPACK_PACKAGE_NAME "${PROJECT_NAME}")
+    set(CPACK_PACKAGE_VENDOR "Fanuware")
+    set(CPACK_PACKAGE_CONTACT "fanuware@gmail.com")
+    set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Tetris")
+    set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}")
+    if(EXISTS "${CMAKE_SOURCE_DIR}/LICENSE")
+        set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/LICENSE")
+    endif()
+    if(EXISTS "${CMAKE_SOURCE_DIR}/README.md")
+        set(CPACK_RESOURCE_FILE_README "${CMAKE_SOURCE_DIR}/README.md")
+    endif()
+    set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${CMAKE_SYSTEM_NAME}")
+    set(CPACK_GENERATOR "DEB")
+    set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Fanuware")
+    set(CPACK_DEBIAN_PACKAGE_DEPENDS "qtbase5-dev | qt6-base-dev")
+    include(CPack)
 endif()

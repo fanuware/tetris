@@ -12,24 +12,29 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        qt:
-          - qt6
-          - qt5
+        os: [ubuntu-latest, windows-latest]
+        qt: [qt6, qt5]
 
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install Qt
+    - name: Install Qt (Ubuntu)
+      if: runner.os == 'Linux'
       run: |
         sudo apt-get update
         if [ "${{ matrix.qt }}" = "qt6" ]; then
           sudo apt-get install -y qt6-base-dev;
         else
-          sudo apt-get install -y qtbase5-dev
+          sudo apt-get install -y qtbase5-dev;
         fi
+
+    - name: Install Qt (Windows)
+      if: runner.os == 'Windows'
+      run: |
+        choco install -y qt6 || choco install -y qt5-default
 
     - name: Configure CMake
       run: |
