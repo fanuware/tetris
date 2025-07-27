@@ -36,13 +36,13 @@ jobs:
       run: |
         choco install -y qt6 || choco install -y qt5-default
 
-    - name: Configure CMake
-      run: |
-        if [ "${{ matrix.qt }}" = "qt6" ]; then
-          cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DQT_MAJOR_VERSION=6;
-        else
-          cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DQT_MAJOR_VERSION=5;
-        fi
+    - name: Configure CMake (Qt6)
+      if: matrix.qt == 'qt6'
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DQT_MAJOR_VERSION=6
+
+    - name: Configure CMake (Qt5)
+      if: matrix.qt == 'qt5'
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DQT_MAJOR_VERSION=5
 
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
