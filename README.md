@@ -2,13 +2,13 @@
 
 Tetris, the famous video game.
 
-The game is implemented in C++ and uses the Qt5 framework to access the graphical interface.
+The game is implemented in C++ and uses the Qt framework to access the graphical interface.
 
 ![Tetris Sample](sample.png)
 
 ## Dependencies
 
-- Qt5
+- Qt6 (or Qt5)
 
 ## Installation
 
@@ -19,8 +19,8 @@ Here is described how to build with CMake.
 ### Build with CMake
 
 ```bash
-git clone <controLED-repo>
-cd <controLED-project>
+git clone <this-project>
+cd <this-project>
 mkdir build
 cd build
 cmake ../

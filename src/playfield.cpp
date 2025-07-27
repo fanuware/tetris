@@ -9,7 +9,7 @@ void PlayField::saveSettings() {
     mySettings.setValue("gridColor", m_settings.gridColor);
     mySettings.setValue("background", m_settings.background);
     for (int i = 0; i < TetrisShape::NUMBER_OF_SHAPES; i++ )
-        mySettings.setValue(QString("shapesColor").append(i), m_settings.shapesColor.colorSet[i]);
+        mySettings.setValue(QString("shapesColor").append(QString::number(i)), m_settings.shapesColor.colorSet[i]);
     mySettings.endGroup();
 }
 
@@ -23,7 +23,7 @@ void PlayField::restoreSettings() {
         m_settings.gridColor = mySettings.value("gridColor").value<QColor>();
         m_settings.background = mySettings.value("background").value<QColor>();
         for (int i = 0; i < TetrisShape::NUMBER_OF_SHAPES; i++ )
-            m_settings.shapesColor.colorSet[i] = mySettings.value(QString("shapesColor").append(i)).value<QColor>();
+            m_settings.shapesColor.colorSet[i] = mySettings.value(QString("shapesColor").append(QString::number(i))).value<QColor>();
     }
     mySettings.endGroup();
 }
@@ -218,7 +218,7 @@ void PlayField::showPreview() {
         // create pixmap to display shape
         QPixmap pixmap(m_nextShape.width() * size, m_nextShape.height() * size);
         QPainter painter(&pixmap);
-        painter.fillRect(pixmap.rect(), m_lblPreview->palette().background());
+        painter.fillRect(pixmap.rect(), m_lblPreview->palette().window());
         for(int i=0; i<4; i++ ) {
         paintSquare(&painter, m_nextShape,
                     m_nextShape.x(i) * size, m_nextShape.y(i) * size,
